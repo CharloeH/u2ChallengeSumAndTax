@@ -1,4 +1,10 @@
-﻿using System;
+/*
+Sebastian Horton
+March 26, 2018
+u2SebastianTXTMSG
+Converts a variety of short form "texts" into full words
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace u2ChallengeSumAndTaxSebastian
+namespace u2SebastianTXTMSG
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,39 +29,82 @@ namespace u2ChallengeSumAndTaxSebastian
         public MainWindow()
         {
             InitializeComponent();
-            
-            
+
+
+
         }
 
         private void btnClick_Click(object sender, RoutedEventArgs e)
         {
             string Input = txtInput.Text;
-            int numOfLines;
-            int.TryParse(Input.Substring(0, Input.IndexOf('\r')), out numOfLines);
-           Input =  Input.Substring(Input.IndexOf("\r") + 2);
-            double SubTotal = 0;
-            double add = 0;
-            double Tax;
-            double Total;
-            for (int i = 0; i < numOfLines; ++i)
+            string Output = "";
+            string Line;
+            string LineEnding = "\r\n";
+            string LastLine = "TTYL";
+            int LineEndingLength = LineEnding.Length;
+            do
             {
-                double.TryParse(Input.Substring(0, Input.IndexOf("\r")), out add);
-                SubTotal = SubTotal + add;
-                
-                
-                    Input = Input.Substring(Input.IndexOf("\r") + 2);
-                
-                //MessageBox.Show(Input);
-                //MessageBox.Show("10/10 ign would loop again");
-                //MessageBox.Show(SubTotal.ToString());
-            }
-            MessageBox.Show(SubTotal.ToString());
-            Tax = SubTotal * 0.13;
-            MessageBox.Show(Tax.ToString());
-            Total = SubTotal + Tax;
-            lblOutput.Content = Total.ToString();
+                int EndIndex = Input.IndexOf(LineEnding);
+                if (EndIndex == -1)
+                {
+                    EndIndex = Input.Length;
+                }
+                Line = Input.Substring(0, EndIndex);
+                if (Line == "CU")
+                {
+                    Output = Output + "See you" + LineEnding;
+                }
+                else if (Line == ":-)")
+                {
+                    Output = Output + "I'm happy" + LineEnding;
+                }
+                else if (Line == ":-(")
+                {
+                    Output = Output + "I'm Sad" + LineEnding;
+                }
+                else if (Line == ";-)")
+                {
+                    Output = Output + "Wink" + LineEnding;
+                }
+                else if (Line == ":-P")
+                {
+                    Output = Output + "stick out my toungue" + LineEnding;
+                }
+                else if (Line == "(~.~)")
+                {
+                    Output = Output + "sleepy" + LineEnding;
+                }
+                else if (Line == "TA")
+                {
+                    Output = Output + "totally awesome" + LineEnding;
+                }
+                else if (Line == "CCC")
+                {
+                    Output = Output + "Canadian Computing Competition" + LineEnding;
+                }
+                else if (Line == "CUZ")
+                {
+                    Output = Output + "thank-you" + LineEnding;
+                }
+                else if (Line == "YW")
+                {
+                    Output = Output + "you're welcome" + LineEnding;
+                }
+                else if (Line == LastLine)
+                {
+                    Output = Output + "Talk to you later";
+                }
 
+                else
+                {
+                    Output = Output + Line + LineEnding;
+                }
+                if (Line != LastLine)
+                {
+                    Input = Input.Substring(EndIndex + LineEndingLength, Input.Length - EndIndex - LineEndingLength);
+                }
+            } while (Line != LastLine);
+            lblOutput.Content = Output;
         }
     }
- }
-
+}
